@@ -1,0 +1,13 @@
+* ICD
+ICD Perceber~LVM~e~DRDB
+* AEC
+AEC Instalar~windows
+AEC Instalar~myCBR
+AEC Estudar~Teórica-prática
+AEC Acabar~ficha~k-means
+AEC Acabar~ficha~SVM
+AEC Fazer~trabalho
+* AI
+AI Fazer~ficha~2
+* DAW
+DAW TPC~3
