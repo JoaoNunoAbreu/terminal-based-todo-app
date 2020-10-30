@@ -17,6 +17,10 @@
 alias todo="python3 <path completo para ficheiro main.py>"
 ```
 
+## Notas
+
+* Alterar o path do ficheiro onde se guarda as tarefas. (ficheiro main.py, linha 7)
+
 ## Comandos
 
 * Mostra os to-dos de cada secção
