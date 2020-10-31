@@ -4,7 +4,7 @@ import os.path
 from os import path
 from tabulate import tabulate
 
-file_path = "/Users/joaonunoabreu/Desktop/Util/Python/todo-app/data.txt"
+file_path = ""
 
 if(path.exists(file_path) == False):
     file = open(file_path,"w")
