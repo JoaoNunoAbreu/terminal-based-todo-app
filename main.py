@@ -4,7 +4,7 @@ import os.path
 from os import path
 from tabulate import tabulate
 
-file_path = ""
+file_path = "./data.txt"
 
 if(path.exists(file_path) == False):
     file = open(file_path,"w")

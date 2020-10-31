@@ -35,10 +35,10 @@ $ todo
 $ todo add "nome_secção" "tarefa"
 ```
 
-* Remove um to-do de uma secção
+* Remove um to-do de uma secção (Uso do id em vez de ter que escrever a tarefa toda. O id começa em 1!!)
 
 ```bash
-$ todo rm "nome_secção" "tarefa"
+$ todo rm "nome_secção" "id-tarefa"
 ```
 
 * Remove uma secção, incluindo os to-dos dentro dessa secção
