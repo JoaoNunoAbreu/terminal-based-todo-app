@@ -20,6 +20,7 @@ alias todo="python3 <path completo para ficheiro main.py>"
 ## Notas
 
 * Alterar o path do ficheiro onde se guarda as tarefas. (ficheiro main.py, linha 7)
+* Este ficheiro é o data.txt, que se encontra na mesma diretoria do main.py, sem conteúdo inicial.
 
 ## Comandos
 
