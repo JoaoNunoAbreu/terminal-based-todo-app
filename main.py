@@ -4,7 +4,7 @@ import os.path
 from os import path
 from tabulate import tabulate
 
-file_path = ""
+file_path = "/Users/joaonunoabreu/Desktop/Util/Python/todo-app/data.txt"
 
 if(path.exists(file_path) == False):
     file = open(file_path,"w")
@@ -35,8 +35,10 @@ def prettyprint(printable):
         table = []
         for x in info:
             s = "\n"
+            num = 1
             for y in info[x]:
-                s += y + "\n"
+                s += str(num) + " - " + y + "\n"
+                num += 1
             table.append([x,s.replace("~"," ")])
 
         print(tabulate(table, headers, tablefmt='fancy_grid'))
@@ -60,6 +62,9 @@ elif(len(sys.argv) == 1):
 elif(len(sys.argv) == 3 and sys.argv[1] == "rs"):
     info = prettyprint(False)
     seccao = sys.argv[2]
+    if(seccao not in info):
+        print("Secção não existe...")
+        sys.exit(0)
     line_remover(["* " + seccao])
     l = [seccao + " " + x for x in info[seccao]]
     line_remover(l)
@@ -67,7 +72,13 @@ elif(len(sys.argv) == 3 and sys.argv[1] == "rs"):
 elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
     info = prettyprint(False)
     seccao = sys.argv[2]
-    line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1]])
+    if(seccao not in info):
+        print("Secção não existe...")
+        sys.exit(0)
+    if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
+        print("Id inválido...")
+        sys.exit(0)
+    #line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1]])
     prettyprint(True)
 else:
     print(sys.argv)

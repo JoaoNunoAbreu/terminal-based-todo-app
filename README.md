@@ -36,7 +36,7 @@ $ todo
 $ todo add "nome_secção" "tarefa"
 ```
 
-* Remove um to-do de uma secção (Uso do id em vez de ter que escrever a tarefa toda. O id começa em 1!!)
+* Remove um to-do de uma secção (Uso do id em vez de ter que escrever a tarefa toda.)
 
 ```bash
 $ todo rm "nome_secção" "id-tarefa"
