@@ -78,7 +78,7 @@ elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
     if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
         print("Id inválido...")
         sys.exit(0)
-    #line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1]])
+    line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1]])
     prettyprint(True)
 else:
     print(sys.argv)
