@@ -48,6 +48,12 @@ $ todo rm "nome_secção" "id-tarefa"
 $ todo rs "nome_secção"
 ```
 
+* Mostra apenas os to-dos com datas
+
+```bash
+$ todo datas
+```
+
 * Mostra os comandos possíveis
 
 ```bash
