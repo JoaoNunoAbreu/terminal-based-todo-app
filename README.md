@@ -6,7 +6,7 @@
 * Criar/remover em cada secção um to-do
 * Apresentar para todas as secções os respetivos to-do's
 
-<img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="400"/>
+<img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="500"/>
 
 ## Recomendações
 
