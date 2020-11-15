@@ -107,7 +107,7 @@ elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
             datas += y[1] + "\n"
             num += 1
         
-        # Para não aparecerem secções sem datas
+        # Para não aparecerem secções sem secções
         if(s != "\n" and datas != "\n"):
             table.append([x,s.replace("~"," "),datas])
 
