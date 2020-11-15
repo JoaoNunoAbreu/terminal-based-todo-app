@@ -30,10 +30,10 @@ alias todo="python3 <path completo para ficheiro main.py>"
 $ todo
 ```
 
-* Adiciona um novo to-do a uma secção existente, se não existir também a cria
+* Adiciona um novo to-do a uma secção existente, se não existir também a cria. Data limite opcional.
 
 ```bash
-$ todo add "nome_secção" "tarefa"
+$ todo add "nome_secção" "tarefa" ["data"]
 ```
 
 * Remove um to-do de uma secção (Uso do id em vez de ter que escrever a tarefa toda.)
@@ -46,6 +46,12 @@ $ todo rm "nome_secção" "id-tarefa"
 
 ```bash
 $ todo rs "nome_secção"
+```
+
+* Mostra os comandos possíveis
+
+```bash
+$ todo help
 ```
 
 ## Dependências

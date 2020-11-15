@@ -1,6 +1,5 @@
 import sys
 from sys import argv
-import os.path
 from os import path
 from tabulate import tabulate
 
@@ -25,35 +24,40 @@ def prettyprint(printable):
         data = l.split()
         
         if(data[0] == "*"):
-            info[data[1]] = [];
+            info[data[1]] = []
         else:
-            info[data[0]].append(data[1])
+            info[data[0]].append((data[1],data[2]))
 
     if(printable):
         
-        headers = ["Secção","Tarefa"]
+        headers = ["Secção","Tarefa","Data"]
         table = []
         for x in info:
             s = "\n"
+            datas = "\n"
             num = 1
             for y in info[x]:
-                s += str(num) + " - " + y + "\n"
+                s += str(num) + " - " + y[0] + "\n"
+                datas += y[1] + "\n"
                 num += 1
-            table.append([x,s.replace("~"," ")])
+            table.append([x,s.replace("~"," "),datas])
 
         print(tabulate(table, headers, tablefmt='fancy_grid'))
 
     file.close()
     return info
 
-if(len(sys.argv) == 4 and sys.argv[1] == "add"):
+if((len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv[1] == "add"):
 
     info = prettyprint(False)
     file = open(file_path,"a")
     if(argv[2] not in info):
         file.write("* "+sys.argv[2]+"\n")
 
-    file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + "\n")
+    if(len(sys.argv) == 4):
+        file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + " " + "-----" + "\n")
+    else:
+        file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + " " + sys.argv[4] + "\n")
     file.close()
     prettyprint(True)
 
@@ -66,7 +70,7 @@ elif(len(sys.argv) == 3 and sys.argv[1] == "rs"):
         print("Secção não existe...")
         sys.exit(0)
     line_remover(["* " + seccao])
-    l = [seccao + " " + x for x in info[seccao]]
+    l = [seccao + " " + x[0] + " " + x[1] for x in info[seccao]]
     line_remover(l)
     prettyprint(True)
 elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
@@ -78,8 +82,47 @@ elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
     if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
         print("Id inválido...")
         sys.exit(0)
-    line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1]])
+    line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1][0] + " " + info[seccao][int(sys.argv[3])-1][1]])
     prettyprint(True)
+elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
+    file = open(file_path,"r")
+    lines = file.readlines() 
+    info = {}
+
+    for l in lines:
+        data = l.split()
+        if(data[0] == "*"):
+            info[data[1]] = []
+        elif(data[2] != "-----"):
+            info[data[0]].append((data[1],data[2]))
+
+    headers = ["Secção","Tarefa","Data"]
+    table = []
+    for x in info:
+        s = "\n"
+        datas = "\n"
+        num = 1
+        for y in info[x]:
+            s += str(num) + " - " + y[0] + "\n"
+            datas += y[1] + "\n"
+            num += 1
+        
+        # Para não aparecerem secções sem datas
+        if(s != "\n" and datas != "\n"):
+            table.append([x,s.replace("~"," "),datas])
+
+    print(tabulate(table, headers, tablefmt='fancy_grid'))
+    file.close()
+
+    
+elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
+    print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
+    print("│ $ todo                                         -> Mostra os to-dos de cada secção     │")
+    print("│ $ todo add \"nome_secção\" \"tarefa\" [\"data\"]     -> Adiciona um novo to-do              │")
+    print("│ $ todo rm \"nome_secção\" \"id-tarefa\"            -> Remove um to-do de uma secção       │")
+    print("│ $ todo rs \"nome_secção\"                        -> Remove uma secção                   │")
+    print("│ $ todo datas                                   -> Mostra os to-dos com data por ordem │")
+    print("╘═══════════════════════════════════════════════════════════════════════════════════════╛")
 else:
     print(sys.argv)
     print("Argumento inválido!")
