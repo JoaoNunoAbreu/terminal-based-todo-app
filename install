@@ -1,0 +1,1 @@
+echo "\nalias todo=\"python3 $(pwd)/main.py\"" >> ~/.bash_profile

@@ -8,12 +8,13 @@
 
 <img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="500"/>
 
-## Notas
+## Instalação
 
-- Correr o script install.sh com o comando: 
-    - `zsh install.sh` - para adicionar um alias ao ficheiro `~/.zshrc`.
-    - `sh install.sh` - para adicionar um alias ao ficheiro `~/.bash_profile`.
-    - para outras shells este processo terá de ser feito manualmente. 😔
+```bash 
+$ cd terminal-based-todo-app-main
+$ chmod +x install
+$ ./install
+```
 
 ## Comandos
 
