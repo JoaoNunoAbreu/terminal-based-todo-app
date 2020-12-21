@@ -10,6 +10,8 @@
 
 ## Instalação
 
+- Colocar a pasta num local definitivo, caso contrário será preciso correr os próximos comandos outra vez.
+
 ```bash 
 $ cd terminal-based-todo-app-main
 $ chmod +x install
