@@ -2,25 +2,18 @@
 
 ## Funcionalidades
 
-* Criar/remover uma secção (ex: Escola, Filmes para ver, Tarefas diárias, etc)
-* Criar/remover em cada secção um to-do
-* Apresentar para todas as secções os respetivos to-do's
+* Criar/remover to-do's.
+* Criar/remover uma secção (ex: GERAL, Escola, Filmes para ver, Tarefas diárias, etc).
+* Apresentar para todas as secções os respetivos to-do's.
 
 <img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="500"/>
 
-## Recomendações
-
-* Criar alias no ficheiro perfil da shell (.bashrc, .zshrc, etc), de modo a ser possível o programa ser corrido em qualquer diretoria. 
-* Exemplo:
-
-```
-alias todo="python3 <path completo para ficheiro main.py>"
-```
-
 ## Notas
 
-* Alterar o path do ficheiro onde se guarda as tarefas. (ficheiro main.py, linha 7)
-* Este ficheiro é o data.txt, que se encontra na mesma diretoria do main.py, sem conteúdo inicial.
+- Correr o script install.sh com o comando: 
+    - `zsh install.sh` - para adicionar um alias ao ficheiro `~/.zshrc`.
+    - `sh install.sh` - para adicionar um alias ao ficheiro `~/.bash_profile`.
+    - para outras shells este processo terá de ser feito manualmente. 😔
 
 ## Comandos
 
@@ -28,6 +21,12 @@ alias todo="python3 <path completo para ficheiro main.py>"
 
 ```bash
 $ todo
+```
+
+* Adiciona um novo to-do na secção "Geral", e se não existir também a cria. Data limite opcional.
+
+```bash
+$ todo add "tarefa" ["data"]
 ```
 
 * Adiciona um novo to-do a uma secção existente, se não existir também a cria. Data limite opcional.
@@ -61,6 +60,9 @@ $ todo help
 ```
 
 ## Dependências
+
+- Python3
+- Tabulate 
 
 ```bash
 $ pip3 install tabulate
