@@ -1,9 +1,11 @@
 import sys
-from sys import argv
+import os 
 from os import path
+from sys import argv
 from tabulate import tabulate
 
-file_path = "data.txt"
+dir_path = os.path.dirname(os.path.realpath(__file__))
+file_path = dir_path + "/data.txt"
 
 if(path.exists(file_path) == False):
     file = open(file_path,"w")
