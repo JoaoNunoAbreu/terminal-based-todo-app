@@ -7,9 +7,6 @@ from tabulate import tabulate
 dir_path = os.path.dirname(os.path.realpath(__file__))
 file_path = dir_path + "/data.txt"
 
-if(path.exists(file_path) == False):
-    file = open(file_path,"w")
-
 def line_remover(nicknames_to_delete):
     with open(file_path, "r") as f:
         lines = f.readlines()
