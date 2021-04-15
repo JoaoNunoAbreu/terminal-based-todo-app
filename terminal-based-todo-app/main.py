@@ -52,19 +52,19 @@ if((len(sys.argv) == 3 or len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv
     file = open(file_path,"a")
 
     if(len(sys.argv) == 3):
-        if("GERAl" not in info):
-            file.write("* GERAl\n")
+        if("GERAL" not in info):
+            file.write("* GERAL\n")
     else:
         if(argv[2] not in info and "/" not in sys.argv[3]):
             file.write("* "+sys.argv[2]+"\n")
             
 
     if(len(sys.argv) == 3):
-        file.write("GERAl" + " " + sys.argv[2].replace(" ","~") + " " + "-----" + "\n")
+        file.write("GERAL" + " " + sys.argv[2].replace(" ","~") + " " + "-----" + "\n")
     elif(len(sys.argv) == 4):
         # Caso tenha data sem seção
         if("/" in sys.argv[3]):
-            file.write("GERAl" + " " + sys.argv[2].replace(" ","~") + " " + sys.argv[3] + "\n")
+            file.write("GERAL" + " " + sys.argv[2].replace(" ","~") + " " + sys.argv[3] + "\n")
         # Caso tenha secção sem data
         else:
             file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + " " + "-----" + "\n")
@@ -130,7 +130,7 @@ elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
 elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
     print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
     print("│ $ todo                                         -> Mostra os to-dos de cada secção     │")
-    print("│ $ todo add \"tarefa\" [\"data\"]                   -> Novo to-do na secção \"GERAl\"        │")
+    print("│ $ todo add \"tarefa\" [\"data\"]                   -> Novo to-do na secção \"GERAL\"        │")
     print("│ $ todo add \"nome_secção\" \"tarefa\" [\"data\"]     -> Novo to-do numa secção à escolha    │")
     print("│ $ todo rm \"nome_secção\" \"id-tarefa\"            -> Remove um to-do de uma secção       │")
     print("│ $ todo rs \"nome_secção\"                        -> Remove uma secção                   │")

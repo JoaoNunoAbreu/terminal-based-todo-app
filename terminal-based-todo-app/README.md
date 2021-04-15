@@ -15,7 +15,7 @@
 ```bash 
 $ cd terminal-based-todo-app-main
 $ chmod +x install
-$ ./install
+$ sh install
 ```
 
 ## Comandos
