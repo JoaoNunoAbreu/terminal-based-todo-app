@@ -1,2 +1,3 @@
 echo "\nalias todo=\"python3 $(pwd)/main.py\"" >> ~/.bash_profile
 pip3 install tabulate
+source ~/.bash_profile
