@@ -27,7 +27,7 @@ def newTask(info,section,task,date):
 
 def prettyprint(data):
     
-    headers = ["Secção","Tarefa","Data"]
+    headers = ["Section","Task","Date"]
     table = []
     for x in data:
         s = ""
@@ -47,20 +47,20 @@ def main():
 
         # Cria a seccção, caso não exista
         if(len(sys.argv) == 3):
-            if("GERAL" not in info):
-                info["GERAL"] = []
+            if("GENERAL" not in info):
+                info["GENERAL"] = []
         else:
             if(argv[2] not in info and "/" not in sys.argv[3]):
                 info[sys.argv[2]] = []
 
-        # Adiciona nova tarefa ao ficheiro
+        # Adiciona nova task ao ficheiro
         if(len(sys.argv) == 3):
-            newTask(info,"GERAL",sys.argv[2],"-----")
+            newTask(info,"GENERAL",sys.argv[2],"-----")
 
         elif(len(sys.argv) == 4):
             # Caso tenha data sem seção
             if("/" in sys.argv[3]):
-                newTask(info,"GERAL",sys.argv[2],sys.argv[3])
+                newTask(info,"GENERAL",sys.argv[2],sys.argv[3])
             # Caso tenha secção sem data
             else:
                 newTask(info,sys.argv[2],sys.argv[3],"-----")
@@ -76,7 +76,7 @@ def main():
         info = readTasks()
         seccao = sys.argv[2]
         if(seccao not in info):
-            print("Secção não existe...")
+            print("Section doesn't exist...")
             sys.exit(0)
         del info[seccao]
         writeTasks(info)
@@ -85,15 +85,15 @@ def main():
         info = readTasks()
         seccao = sys.argv[2]
         if(seccao not in info):
-            print("Secção não existe...")
+            print("Section doesn't exist...")
             sys.exit(0)
         if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
-            print("Id inválido...")
+            print("Invalid id...")
             sys.exit(0)
         del info[seccao][int(sys.argv[3])-1]
         writeTasks(info)
         prettyprint(info)
-    elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
+    elif(len(sys.argv) == 2 and sys.argv[1] == "dates"):
         info = readTasks()
         info_with_dates = {}
 
@@ -107,16 +107,16 @@ def main():
 
     elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
         print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
-        print("│ $ todo                                         -> Mostra os to-dos de cada secção     │")
-        print("│ $ todo add \"tarefa\" [\"data\"]                   -> Novo to-do na secção \"GERAL\"        │")
-        print("│ $ todo add \"nome_secção\" \"tarefa\" [\"data\"]     -> Novo to-do numa secção à escolha    │")
-        print("│ $ todo rm \"nome_secção\" \"id-tarefa\"            -> Remove um to-do de uma secção       │")
-        print("│ $ todo rs \"nome_secção\"                        -> Remove uma secção                   │")
-        print("│ $ todo datas                                   -> Mostra os to-dos com data por ordem │")
+        print("│ $ todo                                       -> Show the tasks for each section       │")
+        print("│ $ todo add \"task\" [\"date\"]                   -> New task to the \"GENERAL\" section     │")
+        print("│ $ todo add \"section_name\" \"task\" [\"date\"]    -> New task to the choosed section       │")
+        print("│ $ todo rm \"section_name\" \"id-task\"           -> Removes task from the choosed section │")
+        print("│ $ todo rs \"section_name\"                     -> Removes a section                     │")
+        print("│ $ todo dates                                 -> Shows the tasks with deadline dates   │")
         print("╘═══════════════════════════════════════════════════════════════════════════════════════╛")
     else:
         print(sys.argv)
-        print("Argumento inválido!")
+        print("Invalid arguments!")
 
 if __name__ == '__main__':
     main()

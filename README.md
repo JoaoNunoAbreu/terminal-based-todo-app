@@ -2,15 +2,15 @@
 
 ## Funcionalidades
 
-* Criar/remover to-do's.
-* Criar/remover uma secção (ex: GERAL, Escola, Filmes para ver, Tarefas diárias, etc).
-* Apresentar para todas as secções os respetivos to-do's.
+* Create/remove to-do's.
+* Create/remove a section (ex: School, Movies, Daily tasks, etc).
+* Show the tasks for each section.
 
 <img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="500"/>
 
-## Instalação
+## Installation
 
-- Colocar a pasta num local definitivo, caso contrário será preciso correr os próximos comandos outra vez.
+- Move this folder to a definitive directory, otherwise it will be necessary to run the install script again.
 
 ```bash 
 $ git clone https://github.com/JoaoNunoAbreu/terminal-based-todo-app
@@ -21,43 +21,43 @@ $ sh install
 
 ## Comandos
 
-* Mostra os to-dos de cada secção
+* Show the tasks for each section
 
 ```bash
 $ todo
 ```
 
-* Adiciona um novo to-do na secção "Geral", e se não existir também a cria. Data limite opcional.
+* Adds a new task to the "GENERAL" section, and creates it if it didn't exist yet. Deadline date is optional.
 
 ```bash
-$ todo add "tarefa" ["data"]
+$ todo add "task" ["date"]
 ```
 
-* Adiciona um novo to-do a uma secção existente, se não existir também a cria. Data limite opcional.
+* Adds a new task to a section, and creates it if it didn't exist yet. Deadline date is optional.
 
 ```bash
-$ todo add "nome_secção" "tarefa" ["data"]
+$ todo add "section_name" "task" ["date"]
 ```
 
-* Remove um to-do de uma secção (Uso do id em vez de ter que escrever a tarefa toda.)
+* Removes a task from a section.
 
 ```bash
-$ todo rm "nome_secção" "id-tarefa"
+$ todo rm "section_name" "id-task"
 ```
 
-* Remove uma secção, incluindo os to-dos dentro dessa secção
+* Removes a section, and all the tasks belonging to that section.
 
 ```bash
-$ todo rs "nome_secção"
+$ todo rs "section_name"
 ```
 
-* Mostra apenas os to-dos com datas
+* Shows the tasks with deadline dates.
 
 ```bash
-$ todo datas
+$ todo dates
 ```
 
-* Mostra os comandos possíveis
+* Shows all the possible commands.
 
 ```bash
 $ todo help
