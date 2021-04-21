@@ -1,6 +1,6 @@
 # To-do App
 
-## Funcionalidades
+## Functionalities
 
 * Create/remove to-do's.
 * Create/remove a section (ex: School, Movies, Daily tasks, etc).
@@ -19,7 +19,7 @@ $ chmod +x install
 $ sh install
 ```
 
-## Comandos
+## Commands
 
 * Show the tasks for each section
 
