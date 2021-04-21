@@ -1,141 +1,118 @@
 import sys
-import os 
-from os import path
+import json
 from sys import argv
 from tabulate import tabulate
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-file_path = dir_path + "/data.txt"
+def readTasks():
+    with open('data.json') as json_file:
+        data = json.load(json_file)
+    return data
 
-def line_remover(nicknames_to_delete):
-    with open(file_path, "r") as f:
-        lines = f.readlines()
-    with open(file_path, "w") as f:
-        for line in lines:
-            if line.strip("\n") not in nicknames_to_delete:
-                f.write(line)
+def writeTasks(info):
+    with open('data.json', 'w') as outfile:
+        json.dump(info, outfile,indent=4,ensure_ascii=False)
 
-def prettyprint(printable):
-    file = open(file_path,"r")
-    lines = file.readlines() 
-    info = {}
-    for l in lines:
-        data = l.split()
-        
-        if(data[0] == "*"):
-            info[data[1]] = []
-        else:
-            info[data[0]].append((data[1],data[2]))
+def newTask(info,section,task,date):
+    next_id = len(info[section]) + 1
+    info[section].append({
+        "id":next_id,
+        "task":task,
+        "date":date
+    })
+    writeTasks(info)
 
-    if(printable):
-        
-        headers = ["Secção","Tarefa","Data"]
-        table = []
-        for x in info:
-            s = "\n"
-            datas = "\n"
-            num = 1
-            for y in info[x]:
-                s += str(num) + " - " + y[0] + "\n"
-                datas += y[1] + "\n"
-                num += 1
-            table.append([x,s.replace("~"," "),datas])
-
-        print(tabulate(table, headers, tablefmt='fancy_grid'))
-
-    file.close()
-    return info
-
-if((len(sys.argv) == 3 or len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv[1] == "add"):
-
-    info = prettyprint(False)
-    file = open(file_path,"a")
-
-    if(len(sys.argv) == 3):
-        if("GERAL" not in info):
-            file.write("* GERAL\n")
-    else:
-        if(argv[2] not in info and "/" not in sys.argv[3]):
-            file.write("* "+sys.argv[2]+"\n")
-            
-
-    if(len(sys.argv) == 3):
-        file.write("GERAL" + " " + sys.argv[2].replace(" ","~") + " " + "-----" + "\n")
-    elif(len(sys.argv) == 4):
-        # Caso tenha data sem seção
-        if("/" in sys.argv[3]):
-            file.write("GERAL" + " " + sys.argv[2].replace(" ","~") + " " + sys.argv[3] + "\n")
-        # Caso tenha secção sem data
-        else:
-            file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + " " + "-----" + "\n")
-
-    elif(len(sys.argv) == 5):
-        file.write(sys.argv[2] + " " + sys.argv[3].replace(" ","~") + " " + sys.argv[4] + "\n")
-    file.close()
-    prettyprint(True)
-elif(len(sys.argv) == 1):
-    prettyprint(True)
-elif(len(sys.argv) == 3 and sys.argv[1] == "rs"):
-    info = prettyprint(False)
-    seccao = sys.argv[2]
-    if(seccao not in info):
-        print("Secção não existe...")
-        sys.exit(0)
-    line_remover(["* " + seccao])
-    l = [seccao + " " + x[0] + " " + x[1] for x in info[seccao]]
-    line_remover(l)
-    prettyprint(True)
-elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
-    info = prettyprint(False)
-    seccao = sys.argv[2]
-    if(seccao not in info):
-        print("Secção não existe...")
-        sys.exit(0)
-    if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
-        print("Id inválido...")
-        sys.exit(0)
-    line_remover([seccao + " " + info[seccao][int(sys.argv[3])-1][0] + " " + info[seccao][int(sys.argv[3])-1][1]])
-    prettyprint(True)
-elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
-    file = open(file_path,"r")
-    lines = file.readlines() 
-    info = {}
-
-    for l in lines:
-        data = l.split()
-        if(data[0] == "*"):
-            info[data[1]] = []
-        elif(data[2] != "-----"):
-            info[data[0]].append((data[1],data[2]))
-
+def prettyprint(data):
+    
     headers = ["Secção","Tarefa","Data"]
     table = []
-    for x in info:
-        s = "\n"
-        datas = "\n"
-        num = 1
-        for y in info[x]:
-            s += str(num) + " - " + y[0] + "\n"
-            datas += y[1] + "\n"
-            num += 1
-        
-        # Para não aparecerem secções sem secções
-        if(s != "\n" and datas != "\n"):
-            table.append([x,s.replace("~"," "),datas])
+    for x in data:
+        s = ""
+        datas = ""
+        for y in data[x]:
+            s += str(y["id"]) + " - " + y["task"] + "\n"
+            datas += y["date"] + "\n"
+        table.append([x,s,datas])
 
     print(tabulate(table, headers, tablefmt='fancy_grid'))
-    file.close()
 
-    
-elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
-    print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
-    print("│ $ todo                                         -> Mostra os to-dos de cada secção     │")
-    print("│ $ todo add \"tarefa\" [\"data\"]                   -> Novo to-do na secção \"GERAL\"        │")
-    print("│ $ todo add \"nome_secção\" \"tarefa\" [\"data\"]     -> Novo to-do numa secção à escolha    │")
-    print("│ $ todo rm \"nome_secção\" \"id-tarefa\"            -> Remove um to-do de uma secção       │")
-    print("│ $ todo rs \"nome_secção\"                        -> Remove uma secção                   │")
-    print("│ $ todo datas                                   -> Mostra os to-dos com data por ordem │")
-    print("╘═══════════════════════════════════════════════════════════════════════════════════════╛")
-else:
-    print(sys.argv)
-    print("Argumento inválido!")
+
+def main():
+    if((len(sys.argv) == 3 or len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv[1] == "add"):
+
+        info = readTasks()
+
+        # Cria a seccção, caso não exista
+        if(len(sys.argv) == 3):
+            if("GERAL" not in info):
+                info["GERAL"] = []
+        else:
+            if(argv[2] not in info and "/" not in sys.argv[3]):
+                info[sys.argv[2]] = []
+
+        # Adiciona nova tarefa ao ficheiro
+        if(len(sys.argv) == 3):
+            newTask(info,"GERAL",sys.argv[2],"-----")
+
+        elif(len(sys.argv) == 4):
+            # Caso tenha data sem seção
+            if("/" in sys.argv[3]):
+                newTask(info,"GERAL",sys.argv[2],sys.argv[3])
+            # Caso tenha secção sem data
+            else:
+                newTask(info,sys.argv[2],sys.argv[3],"-----")
+
+        elif(len(sys.argv) == 5):
+            newTask(info,sys.argv[2],sys.argv[3],sys.argv[4])
+
+        prettyprint(readTasks())
+
+    elif(len(sys.argv) == 1):
+        prettyprint(readTasks())
+    elif(len(sys.argv) == 3 and sys.argv[1] == "rs"):
+        info = readTasks()
+        seccao = sys.argv[2]
+        if(seccao not in info):
+            print("Secção não existe...")
+            sys.exit(0)
+        del info[seccao]
+        writeTasks(info)
+        prettyprint(info)
+    elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
+        info = readTasks()
+        seccao = sys.argv[2]
+        if(seccao not in info):
+            print("Secção não existe...")
+            sys.exit(0)
+        if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
+            print("Id inválido...")
+            sys.exit(0)
+        del info[seccao][int(sys.argv[3])-1]
+        writeTasks(info)
+        prettyprint(info)
+    elif(len(sys.argv) == 2 and sys.argv[1] == "datas"):
+        info = readTasks()
+        info_with_dates = {}
+
+        for sec in info:
+            for i in info[sec]:
+                if(i["date"] != "-----"):
+                    if(sec not in info_with_dates):
+                        info_with_dates[sec] = []    
+                    info_with_dates[sec].append(i)
+        prettyprint(info_with_dates)
+
+    elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
+        print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
+        print("│ $ todo                                         -> Mostra os to-dos de cada secção     │")
+        print("│ $ todo add \"tarefa\" [\"data\"]                   -> Novo to-do na secção \"GERAL\"        │")
+        print("│ $ todo add \"nome_secção\" \"tarefa\" [\"data\"]     -> Novo to-do numa secção à escolha    │")
+        print("│ $ todo rm \"nome_secção\" \"id-tarefa\"            -> Remove um to-do de uma secção       │")
+        print("│ $ todo rs \"nome_secção\"                        -> Remove uma secção                   │")
+        print("│ $ todo datas                                   -> Mostra os to-dos com data por ordem │")
+        print("╘═══════════════════════════════════════════════════════════════════════════════════════╛")
+    else:
+        print(sys.argv)
+        print("Argumento inválido!")
+
+if __name__ == '__main__':
+    main()
