@@ -1,15 +1,19 @@
 import sys
 import json
+import os
 from sys import argv
 from tabulate import tabulate
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+file_path = dir_path + "/data.json"
+
 def readTasks():
-    with open('data.json') as json_file:
+    with open(file_path) as json_file:
         data = json.load(json_file)
     return data
 
 def writeTasks(info):
-    with open('data.json', 'w') as outfile:
+    with open(file_path, 'w') as outfile:
         json.dump(info, outfile,indent=4,ensure_ascii=False)
 
 def newTask(info,section,task,date):
