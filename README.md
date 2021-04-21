@@ -13,6 +13,7 @@
 - Colocar a pasta num local definitivo, caso contrário será preciso correr os próximos comandos outra vez.
 
 ```bash 
+$ git clone https://github.com/JoaoNunoAbreu/terminal-based-todo-app
 $ cd terminal-based-todo-app-main
 $ chmod +x install
 $ sh install
@@ -60,13 +61,4 @@ $ todo datas
 
 ```bash
 $ todo help
-```
-
-## Dependências
-
-- Python3
-- Tabulate 
-
-```bash
-$ pip3 install tabulate
 ```
