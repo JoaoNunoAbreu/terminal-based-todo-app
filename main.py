@@ -25,6 +25,14 @@ def newTask(info,section,task,date):
     })
     writeTasks(info)
 
+def normalize(info):
+    for i in info:
+        count = 1
+        for elem in info[i]:
+            elem['id'] = count
+            count += 1
+    return info
+
 def prettyprint(data):
     
     headers = ["Section","Task","Date"]
@@ -90,9 +98,20 @@ def main():
         if(int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
             print("Invalid id...")
             sys.exit(0)
-        del info[seccao][int(sys.argv[3])-1]
-        writeTasks(info)
-        prettyprint(info)
+
+        found = False
+        for i in range(len(info[seccao])):
+            if(info[seccao][i]['id'] == int(sys.argv[3])):
+                del info[seccao][i]
+                found = True
+                break
+        
+        if(found == False):
+            print("Invalid id...")
+        else:
+            info = normalize(info)
+            writeTasks(info)
+            prettyprint(info)
     elif(len(sys.argv) == 2 and sys.argv[1] == "dates"):
         info = readTasks()
         info_with_dates = {}
