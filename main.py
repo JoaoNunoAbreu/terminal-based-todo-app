@@ -74,6 +74,9 @@ def main():
                 newTask(info,sys.argv[2],sys.argv[3],"-----")
 
         elif(len(sys.argv) == 5):
+            if("/" not in sys.argv[4]):
+                print("Invalid date...")
+                sys.exit()
             newTask(info,sys.argv[2],sys.argv[3],sys.argv[4])
 
         prettyprint(readTasks())
