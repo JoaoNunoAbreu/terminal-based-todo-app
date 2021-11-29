@@ -7,23 +7,27 @@ from tabulate import tabulate
 dir_path = os.path.dirname(os.path.realpath(__file__))
 file_path = dir_path + "/data.json"
 
+
 def readTasks():
     with open(file_path) as json_file:
         data = json.load(json_file)
     return data
 
+
 def writeTasks(info):
     with open(file_path, 'w') as outfile:
-        json.dump(info, outfile,indent=4,ensure_ascii=False)
+        json.dump(info, outfile, indent=4, ensure_ascii=False)
 
-def newTask(info,section,task,date):
+
+def newTask(info, section, task, date):
     next_id = len(info[section]) + 1
     info[section].append({
-        "id":next_id,
-        "task":task,
-        "date":date
+        "id": next_id,
+        "task": task,
+        "date": date
     })
     writeTasks(info)
+
 
 def normalize(info):
     for i in info:
@@ -33,9 +37,10 @@ def normalize(info):
             count += 1
     return info
 
+
 def prettyprint(data):
-    
-    headers = ["Section","Task","Date"]
+
+    headers = ["Section", "Task", "Date"]
     table = []
     for x in data:
         s = ""
@@ -43,7 +48,7 @@ def prettyprint(data):
         for y in data[x]:
             s += str(y["id"]) + " - " + y["task"] + "\n"
             datas += y["date"] + "\n"
-        table.append([x,s,datas])
+        table.append([x, s, datas])
 
     print(tabulate(table, headers, tablefmt='fancy_grid'))
 
@@ -54,7 +59,7 @@ def main():
         info = readTasks()
 
         # Cria a seccção, caso não exista
-        if(len(sys.argv) == 3):
+        if(len(sys.argv) == 3 or (len(sys.argv) == 4 and "/" in sys.argv[3])):
             if("GENERAL" not in info):
                 info["GENERAL"] = []
         else:
@@ -63,21 +68,21 @@ def main():
 
         # Adiciona nova task ao ficheiro
         if(len(sys.argv) == 3):
-            newTask(info,"GENERAL",sys.argv[2],"-----")
+            newTask(info, "GENERAL", sys.argv[2], "-----")
 
         elif(len(sys.argv) == 4):
             # Caso tenha data sem seção
             if("/" in sys.argv[3]):
-                newTask(info,"GENERAL",sys.argv[2],sys.argv[3])
+                newTask(info, "GENERAL", sys.argv[2], sys.argv[3])
             # Caso tenha secção sem data
             else:
-                newTask(info,sys.argv[2],sys.argv[3],"-----")
+                newTask(info, sys.argv[2], sys.argv[3], "-----")
 
         elif(len(sys.argv) == 5):
             if("/" not in sys.argv[4]):
                 print("Invalid date...")
                 sys.exit()
-            newTask(info,sys.argv[2],sys.argv[3],sys.argv[4])
+            newTask(info, sys.argv[2], sys.argv[3], sys.argv[4])
 
         prettyprint(readTasks())
 
@@ -108,7 +113,7 @@ def main():
                 del info[seccao][i]
                 found = True
                 break
-        
+
         if(found == False):
             print("Invalid id...")
         else:
@@ -123,15 +128,17 @@ def main():
             for i in info[sec]:
                 if(i["date"] != "-----"):
                     if(sec not in info_with_dates):
-                        info_with_dates[sec] = []    
+                        info_with_dates[sec] = []
                     info_with_dates[sec].append(i)
         prettyprint(info_with_dates)
 
     elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
         print("╒═══════════════════════════════════════════════════════════════════════════════════════╕")
         print("│ $ todo                                       -> Show the tasks for each section       │")
-        print("│ $ todo add \"task\" [\"date\"]                   -> New task to the \"GENERAL\" section     │")
-        print("│ $ todo add \"section_name\" \"task\" [\"date\"]    -> New task to the choosed section       │")
+        print(
+            "│ $ todo add \"task\" [\"date\"]                   -> New task to the \"GENERAL\" section     │")
+        print(
+            "│ $ todo add \"section_name\" \"task\" [\"date\"]    -> New task to the choosed section       │")
         print("│ $ todo rm \"section_name\" \"id-task\"           -> Removes task from the choosed section │")
         print("│ $ todo rs \"section_name\"                     -> Removes a section                     │")
         print("│ $ todo dates                                 -> Shows the tasks with deadline dates   │")
@@ -139,6 +146,7 @@ def main():
     else:
         print(sys.argv)
         print("Invalid arguments!")
+
 
 if __name__ == '__main__':
     main()
