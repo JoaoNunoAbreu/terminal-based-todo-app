@@ -1,1 +1,38 @@
-{}
+{
+    "GENERAL": [
+        {
+            "id": 1,
+            "task": "Comprar Rafaelos",
+            "date": "29/11"
+        },
+        {
+            "id": 2,
+            "task": "correr",
+            "date": "-----"
+        },
+        {
+            "id": 3,
+            "task": "fazer story para o insta",
+            "date": "29/11"
+        },
+        {
+            "id": 4,
+            "task": "add todo today command",
+            "date": "-----"
+        }
+    ],
+    "Tese": [
+        {
+            "id": 1,
+            "task": "acabar o cap de ML",
+            "date": "03/12"
+        }
+    ],
+    "PI": [
+        {
+            "id": 1,
+            "task": "Trabalhar",
+            "date": "-----"
+        }
+    ]
+}
