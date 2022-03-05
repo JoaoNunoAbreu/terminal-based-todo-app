@@ -3,7 +3,6 @@ import json
 import os
 from sys import argv
 from datetime import datetime
-from tabulate import tabulate
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 file_path = dir_path + "/data.json"
@@ -41,17 +40,36 @@ def normalize(info):
 
 def prettyprint(data):
 
-    headers = ["Section", "Task", "Date"]
-    table = []
-    for x in data:
-        s = ""
-        datas = ""
-        for y in data[x]:
-            s += str(y["id"]) + " - " + y["task"] + "\n"
-            datas += y["date"] + "\n"
-        table.append([x, s, datas])
+    if(data == {}):
+        print("No data. Try adding some tasks! Use \"todo help\" for more info.")
+        return
 
-    print(tabulate(table, headers, tablefmt='fancy_grid'))
+    table = []
+    max_width_section = 8
+    max_width_task = 8
+    for x, y in data.items():
+        identifier = 1
+        for i in y:
+            table.append([x, f"{identifier} - {i['task']}", i["date"]])
+            if len(x) > max_width_section:
+                max_width_section = len(x)
+            if len(i["task"]) > max_width_task:
+                max_width_task = len(i["task"]) + 4
+            identifier += 1
+
+    print()
+    print(f" {'Section':<{max_width_section}} | {'Task':<{max_width_task}} | {'Date':<6}")
+
+    last_section = ""
+    for i in table:
+        if i[0] != last_section:
+            print("-" * (max_width_section+2) + "+" + "-" * (max_width_task+2) + "+" + "-" * 9)
+            print(f" {i[0]:<{max_width_section}} | {i[1]:<{max_width_task}} | {i[2]:<7}")
+            last_section = i[0]
+        else:
+            print(f" {' ':<{max_width_section}} | {i[1]:<{max_width_task}} | {i[2]:<7}")
+
+    print()
 
 
 def main():
@@ -145,18 +163,13 @@ def main():
                     info_with_dates[sec].append(i)
         prettyprint(info_with_dates)
     elif(len(sys.argv) == 2 and sys.argv[1] == "help"):
-        print("╒═══════════════════════════════════════════════════════════════════════════════════════════════╕")
-        print("│ $ todo                                       -> Show the tasks for each section\t\t│")
-        print(
-            "│ $ todo add \"task\" [\"date\"]                   -> New task to the \"GENERAL\" section\t\t│")
-        print(
-            "│ $ todo add \"section_name\" \"task\" [\"date\"]    -> New task to the choosed section\t\t│")
-        print("│ $ todo rm \"section_name\" \"id-task\"           -> Removes task from the choosed section\t\t│")
-        print(
-            "│ $ todo rs \"section_name\"                     -> Removes a section\t\t\t\t│")
-        print("│ $ todo dates                                 -> Shows the tasks with deadline dates\t\t│")
-        print("│ $ todo today                                 -> Shows the tasks with today's deadline date \t│")
-        print("╘═══════════════════════════════════════════════════════════════════════════════════════════════╛")
+        print("$ todo                                       -> Show the tasks for each section")
+        print("$ todo add \"task\" [\"date\"]                   -> New task to the \"GENERAL\" section")
+        print("$ todo add \"section_name\" \"task\" [\"date\"]    -> New task to a section")
+        print("$ todo rm \"section_name\" \"id-task\"           -> Removes task from a section")
+        print("$ todo rs \"section_name\"                     -> Removes a section")
+        print("$ todo dates                                 -> Shows the tasks with deadline dates")
+        print("$ todo today                                 -> Shows the tasks with today's deadline date")
     else:
         print(sys.argv)
         print("Invalid arguments!")

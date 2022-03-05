@@ -6,7 +6,9 @@
 - Create/remove a section (ex: School, Movies, Daily tasks, etc).
 - Show the tasks for each section.
 
-<img src="https://i.imgur.com/05jNN4e.png" alt="drawing" width="500"/>
+<img src="https://i.imgur.com/gj8IdkJ.png" alt="drawing" width="500"/>
+
+<img src="https://i.imgur.com/KRlFGty.png" alt="drawing" width="500"/>
 
 ## Installation
 

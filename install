@@ -1,3 +1,16 @@
-echo "\nalias todo=\"python3 $(pwd)/main.py\"" >> ~/.bash_profile
-pip3 install tabulate
-source ~/.bash_profile
+# ask for which shell the user wants
+echo "Which shell do you want to use?"
+echo "1. bash"
+echo "2. zsh"
+
+read line
+
+if  [ "$line" = "1" ]; then
+    echo "\nalias todo=\"python3 $(pwd)/main.py\"" >> ~/.bash_profile
+elif [ "$line" = "2" ]; then
+    echo "\nalias todo=\"python3 $(pwd)/main.py\"" >> ~/.zshrc
+else
+    echo "Please choose a valid option"
+fi
+
+echo "Done! Please restart your terminal"
