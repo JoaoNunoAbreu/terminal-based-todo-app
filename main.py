@@ -45,15 +45,15 @@ def prettyprint(data):
         return
 
     table = []
-    max_width_section = 8
-    max_width_task = 8
+    max_width_section = 0
+    max_width_task = 0
     for x, y in data.items():
         identifier = 1
         for i in y:
             table.append([x, f"{identifier} - {i['task']}", i["date"]])
             if len(x) > max_width_section:
                 max_width_section = len(x)
-            if len(i["task"]) > max_width_task:
+            if len(i["task"]) + 4 > max_width_task:
                 max_width_task = len(i["task"]) + 4
             identifier += 1
 
