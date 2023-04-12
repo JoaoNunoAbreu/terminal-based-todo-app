@@ -37,37 +37,42 @@ def normalize(info):
             count += 1
     return info
 
+def are_there_tasks(data):
+    for i in data:
+        if data[i] != []:
+            return True
+    return False
 
 def prettyprint(data):
 
-    if(data == {}):
+    if(are_there_tasks(data) == False):
         print("No data. Try adding some tasks! Use \"todo help\" for more info.")
         return
 
     table = []
-    max_width_section = 0
-    max_width_task = 0
+    section_width = 8
+    task_width = 5
     for x, y in data.items():
         identifier = 1
         for i in y:
             table.append([x, f"{identifier} - {i['task']}", i["date"]])
-            if len(x) > max_width_section:
-                max_width_section = len(x)
-            if len(i["task"]) + 4 > max_width_task:
-                max_width_task = len(i["task"]) + 4
+            if len(x) > section_width:
+                section_width = len(x)
+            if len(i["task"]) + 4 > task_width:
+                task_width = len(i["task"]) + 4
             identifier += 1
 
     print()
-    print(f" {'Section':<{max_width_section}} | {'Task':<{max_width_task}} | {'Date':<6}")
+    print(f" {'Section':<{section_width}} | {'Task':<{task_width}} | {'Date':<6}")
 
     last_section = ""
     for i in table:
         if i[0] != last_section:
-            print("-" * (max_width_section+2) + "+" + "-" * (max_width_task+2) + "+" + "-" * 9)
-            print(f" {i[0]:<{max_width_section}} | {i[1]:<{max_width_task}} | {i[2]:<7}")
+            print("-" * (section_width+2) + "+" + "-" * (task_width+2) + "+" + "-" * 9)
+            print(f" {i[0]:<{section_width}} | {i[1]:<{task_width}} | {i[2]:<7}")
             last_section = i[0]
         else:
-            print(f" {' ':<{max_width_section}} | {i[1]:<{max_width_task}} | {i[2]:<7}")
+            print(f" {' ':<{section_width}} | {i[1]:<{task_width}} | {i[2]:<7}")
 
     print()
 
@@ -115,7 +120,6 @@ def main():
             sys.exit(0)
         del info[seccao]
         writeTasks(info)
-        prettyprint(info)
     elif(len(sys.argv) == 4 and sys.argv[1] == "rm"):
         info = readTasks()
         seccao = sys.argv[2]
@@ -138,7 +142,6 @@ def main():
         else:
             info = normalize(info)
             writeTasks(info)
-            prettyprint(info)
     elif(len(sys.argv) == 2 and sys.argv[1] == "dates"):
         info = readTasks()
         info_with_dates = {}
