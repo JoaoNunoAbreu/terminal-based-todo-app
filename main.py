@@ -5,6 +5,7 @@ from sys import argv
 from datetime import datetime
 
 DEFAULT_SECTION = "GENERAL"
+EMPTY_DATE = ""
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 file_path = dir_path + "/data.json"
@@ -94,7 +95,7 @@ def main():
 
         # Adiciona nova task ao ficheiro
         if (len(sys.argv) == 3):
-            newTask(info, DEFAULT_SECTION, sys.argv[2], "-----")
+            newTask(info, DEFAULT_SECTION, sys.argv[2], EMPTY_DATE)
 
         elif (len(sys.argv) == 4):
             # Caso tenha data sem seção
@@ -102,7 +103,7 @@ def main():
                 newTask(info, DEFAULT_SECTION, sys.argv[2], sys.argv[3])
             # Caso tenha secção sem data
             else:
-                newTask(info, sys.argv[2], sys.argv[3], "-----")
+                newTask(info, sys.argv[2], sys.argv[3], EMPTY_DATE)
 
         elif (len(sys.argv) == 5):
             if ("/" not in sys.argv[4]):
@@ -150,7 +151,7 @@ def main():
 
         for sec in info:
             for i in info[sec]:
-                if (i["date"] != "-----"):
+                if (i["date"] != EMPTY_DATE):
                     if (sec not in info_with_dates):
                         info_with_dates[sec] = []
                     info_with_dates[sec].append(i)
@@ -168,13 +169,13 @@ def main():
                     info_with_dates[sec].append(i)
         prettyprint(info_with_dates)
     elif (len(sys.argv) == 2 and sys.argv[1] == "help"):
-        print("$ todo" + " "*39 + "-> Show the tasks for each section")
-        print("$ todo add \"task\" [\"date\"]" + " "*19 + f"-> New task to the \"{DEFAULT_SECTION}\" section")
-        print("$ todo add \"section_name\" \"task\" [\"date\"]    -> New task to a section")
-        print("$ todo rm \"section_name\" \"id-task\"           -> Removes task from a section")
-        print("$ todo rs \"section_name\"                     -> Removes a section")
-        print("$ todo dates                                 -> Shows the tasks with deadline dates")
-        print("$ todo today                                 -> Shows the tasks with today's deadline date")
+        print("$ todo" + " " * 39 + "-> Show the tasks for each section")
+        print("$ todo add \"task\" [\"date\"]" + " " * 19 + f"-> New task to the \"{DEFAULT_SECTION}\" section")
+        print("$ todo add \"section_name\" \"task\" [\"date\"]" + " " * 4 + "-> New task to a section")
+        print("$ todo rm \"section_name\" \"id-task\"" + " " * 11 + "-> Removes task from a section")
+        print("$ todo rs \"section_name\"" + " " * 21 + "-> Removes a section")
+        print("$ todo dates" + " " * 33 + "-> Shows the tasks with deadline dates")
+        print("$ todo today" + " " * 33 + "-> Shows the tasks with today's deadline date")
     else:
         print(sys.argv)
         print("Invalid arguments!")
