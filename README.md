@@ -12,14 +12,15 @@
 
 ## Installation
 
-- Move this folder to a definitive directory, otherwise it will be necessary to run the install script again.
+1. Type `cd` in your terminal to go to your home directory.
+2. Clone the repo.
+3. Add the following line to your `.bashrc` or `.zshrc` file:
 
 ```bash
-$ git clone https://github.com/JoaoNunoAbreu/terminal-based-todo-app
-$ cd terminal-based-todo-app-main
-$ chmod +x install
-$ sh install
+alias todo="python3 ~/terminal-based-todo-app/main.py"
 ```
+4. Restart your terminal.
+5. Done!
 
 ## Commands
 
