@@ -54,6 +54,12 @@ $ todo rm "section_name" "id-task"
 $ todo rs "section_name"
 ```
 
+- Toggles the completion status of a task (marks as done/undone).
+
+```bash
+$ todo done "section_name" "id-task"
+```
+
 - Shows the tasks with deadline dates.
 
 ```bash
@@ -64,6 +70,12 @@ $ todo dates
 
 ```bash
 $ todo today
+```
+
+- Shows only incomplete (pending) tasks
+
+```bash
+$ todo pending
 ```
 
 - Shows all the possible commands.

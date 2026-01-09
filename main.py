@@ -27,7 +27,8 @@ def newTask(info, section, task, date):
     info[section].append({
         "id": next_id,
         "task": task,
-        "date": date
+        "date": date,
+        "done": False
     })
     writeTasks(info)
 
@@ -59,11 +60,15 @@ def prettyprint(data):
     for x, y in data.items():
         identifier = 1
         for i in y:
-            table.append([x, f"{identifier} - {i['task']}", i["date"]])
+            # Backwards compatibility: handle tasks without 'done' field
+            is_done = i.get('done', False)
+            checkbox = "[✓]" if is_done else "[ ]"
+            task_display = f"{checkbox} {identifier} - {i['task']}"
+            table.append([x, task_display, i["date"], is_done])
             if len(x) > section_width:
                 section_width = len(x)
-            if len(i["task"]) + 4 > task_width:
-                task_width = len(i["task"]) + 4
+            if len(task_display) > task_width:
+                task_width = len(task_display)
             identifier += 1
 
     print()
@@ -145,6 +150,30 @@ def main():
         else:
             info = normalize(info)
             writeTasks(info)
+    elif (len(sys.argv) == 4 and sys.argv[1] == "done"):
+        info = readTasks()
+        seccao = sys.argv[2]
+        if (seccao not in info):
+            print("Section doesn't exist...")
+            sys.exit(0)
+        if (int(sys.argv[3]) > len(info[seccao]) or int(sys.argv[3]) <= 0):
+            print("Invalid id...")
+            sys.exit(0)
+
+        found = False
+        for i in range(len(info[seccao])):
+            if (info[seccao][i]['id'] == int(sys.argv[3])):
+                # Toggle done status (backwards compatible)
+                current_status = info[seccao][i].get('done', False)
+                info[seccao][i]['done'] = not current_status
+                found = True
+                break
+
+        if (found is False):
+            print("Invalid id...")
+        else:
+            writeTasks(info)
+            prettyprint(readTasks())
     elif (len(sys.argv) == 2 and sys.argv[1] == "dates"):
         info = readTasks()
         info_with_dates = {}
@@ -168,14 +197,27 @@ def main():
                         info_with_dates[sec] = []
                     info_with_dates[sec].append(i)
         prettyprint(info_with_dates)
+    elif (len(sys.argv) == 2 and sys.argv[1] == "pending"):
+        info = readTasks()
+        info_pending = {}
+        for sec in info:
+            for i in info[sec]:
+                # Backwards compatibility: treat tasks without 'done' field as pending
+                if not i.get('done', False):
+                    if (sec not in info_pending):
+                        info_pending[sec] = []
+                    info_pending[sec].append(i)
+        prettyprint(info_pending)
     elif (len(sys.argv) == 2 and sys.argv[1] == "help"):
         print("$ todo" + " " * 39 + "-> Show the tasks for each section")
         print("$ todo add \"task\" [\"date\"]" + " " * 19 + f"-> New task to the \"{DEFAULT_SECTION}\" section")
         print("$ todo add \"section_name\" \"task\" [\"date\"]" + " " * 4 + "-> New task to a section")
         print("$ todo rm \"section_name\" \"id-task\"" + " " * 11 + "-> Removes task from a section")
         print("$ todo rs \"section_name\"" + " " * 21 + "-> Removes a section")
+        print("$ todo done \"section_name\" \"id-task\"" + " " * 9 + "-> Toggles task completion status")
         print("$ todo dates" + " " * 33 + "-> Shows the tasks with deadline dates")
         print("$ todo today" + " " * 33 + "-> Shows the tasks with today's deadline date")
+        print("$ todo pending" + " " * 31 + "-> Shows only incomplete tasks")
     else:
         print(sys.argv)
         print("Invalid arguments!")
