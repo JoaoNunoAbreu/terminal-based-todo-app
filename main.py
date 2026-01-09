@@ -337,6 +337,34 @@ def main():
         except Exception as e:
             print(f"Error: Unable to filter pending tasks.")
             print(f"Details: {str(e)}")
+    elif (len(sys.argv) == 2 and sys.argv[1] == "overdue"):
+        info = readTasks()
+        info_overdue = {}
+        today = datetime.now()
+
+        try:
+            for sec in info:
+                if not isinstance(info[sec], list):
+                    continue
+                for i in info[sec]:
+                    task_date = i.get("date", EMPTY_DATE)
+                    if isinstance(i, dict) and task_date != EMPTY_DATE:
+                        try:
+                            # Parse the DD/MM format and add current year
+                            task_datetime = datetime.strptime(f"{task_date}/{today.year}", "%d/%m/%Y")
+
+                            # Check if task is overdue (before today, not future dates)
+                            if task_datetime.date() < today.date():
+                                if (sec not in info_overdue):
+                                    info_overdue[sec] = []
+                                info_overdue[sec].append(i)
+                        except ValueError:
+                            # Skip tasks with invalid date format
+                            continue
+            prettyprint(info_overdue)
+        except Exception as e:
+            print(f"Error: Unable to filter overdue tasks.")
+            print(f"Details: {str(e)}")
     elif (len(sys.argv) == 2 and sys.argv[1] == "help"):
         print("$ todo" + " " * 39 + "-> Show the tasks for each section")
         print("$ todo add \"task\" [\"date\"]" + " " * 19 + f"-> New task to the \"{DEFAULT_SECTION}\" section")
@@ -346,6 +374,7 @@ def main():
         print("$ todo done \"section_name\" \"id-task\"" + " " * 9 + "-> Toggles task completion status")
         print("$ todo dates" + " " * 33 + "-> Shows the tasks with deadline dates")
         print("$ todo today" + " " * 33 + "-> Shows the tasks with today's deadline date")
+        print("$ todo overdue" + " " * 31 + "-> Shows tasks with past deadline dates")
         print("$ todo pending" + " " * 31 + "-> Shows only incomplete tasks")
     else:
         print(sys.argv)
