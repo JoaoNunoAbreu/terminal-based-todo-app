@@ -10,17 +10,43 @@
 
 <img src="https://i.imgur.com/KRlFGty.png" alt="drawing" width="500"/>
 
+## Prerequisites
+
+- Python 3.x
+
 ## Installation
 
-1. Type `cd` in your terminal to go to your home directory.
-2. Clone the repo.
-3. Add the following line to your `.bashrc` or `.zshrc` file:
+### Quick Install (Recommended)
 
 ```bash
-alias todo="python3 ~/terminal-based-todo-app/main.py"
+git clone https://github.com/JoaoNunoAbreu/terminal-based-todo-app.git
+cd terminal-based-todo-app
+./install.sh
 ```
-4. Restart your terminal.
-5. Done!
+
+The install script will:
+- Automatically detect your shell (bash/zsh)
+- Set up the `todo` command pointing to wherever you cloned the repo
+- Work from any directory - no need to clone to a specific location
+
+### Manual Install
+
+1. Clone the repo anywhere you like
+2. Add this line to your `.bashrc` or `.zshrc` (adjust the path):
+   ```bash
+   alias todo="python3 /path/to/terminal-based-todo-app/main.py"
+   ```
+3. Restart your terminal or run `source ~/.bashrc`
+
+## Uninstall
+
+Run `./uninstall.sh` from the repo directory. This removes the alias but preserves your tasks in `data.json`.
+
+## Troubleshooting
+
+- **"command not found: todo"** - Run `source ~/.bashrc` (or `~/.zshrc`) or restart your terminal
+- **"python3: command not found"** - Install Python 3 for your system
+- **Permission denied** - Run `chmod +x install.sh` first
 
 ## Commands
 
