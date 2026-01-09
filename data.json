@@ -1,1 +1,18 @@
-{}
+{
+    "GENERAL": [
+        {
+            "id": 1,
+            "task": "Test task with error handling",
+            "date": "",
+            "done": true
+        }
+    ],
+    "Work": [
+        {
+            "id": 1,
+            "task": "Review pull requests",
+            "date": "09/01",
+            "done": false
+        }
+    ]
+}
