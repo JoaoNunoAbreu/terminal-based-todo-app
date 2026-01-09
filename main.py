@@ -337,6 +337,24 @@ def main():
         except Exception as e:
             print(f"Error: Unable to filter pending tasks.")
             print(f"Details: {str(e)}")
+    elif (len(sys.argv) == 2 and sys.argv[1] == "completed"):
+        info = readTasks()
+        info_completed = {}
+
+        try:
+            for sec in info:
+                if not isinstance(info[sec], list):
+                    continue
+                for i in info[sec]:
+                    # Show only completed tasks (done == True)
+                    if isinstance(i, dict) and i.get('done', False):
+                        if (sec not in info_completed):
+                            info_completed[sec] = []
+                        info_completed[sec].append(i)
+            prettyprint(info_completed)
+        except Exception as e:
+            print(f"Error: Unable to filter completed tasks.")
+            print(f"Details: {str(e)}")
     elif (len(sys.argv) == 2 and sys.argv[1] == "overdue"):
         info = readTasks()
         info_overdue = {}
@@ -376,6 +394,7 @@ def main():
         print("$ todo today" + " " * 33 + "-> Shows the tasks with today's deadline date")
         print("$ todo overdue" + " " * 31 + "-> Shows tasks with past deadline dates")
         print("$ todo pending" + " " * 31 + "-> Shows only incomplete tasks")
+        print("$ todo completed" + " " * 29 + "-> Shows only completed tasks")
     else:
         print(sys.argv)
         print("Invalid arguments!")
